@@ -1,3 +1,27 @@
+:root {
+    --bg: #f5f5f5;
+    --surface: #ffffff;
+    --text: #1a1a1a;
+    --text-muted: #6b7280;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --border: #e5e7eb;
+    --input-border: #d1d5db;
+    --completed-bg: rgba(255, 255, 255, 0.25);
+    --delete-color: #9ca3af;
+}
+
+[data-theme="dark"] {
+    --bg: #111827;
+    --surface: #1f2937;
+    --text: #f9fafb;
+    --text-muted: #9ca3af;
+    --border: #374151;
+    --input-border: #4b5563;
+    --completed-bg: rgba(255, 255, 255, 0.05);
+    --delete-color: #6b7280;
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -6,12 +30,13 @@
 
 body {
     font-family: system-ui, -apple-system, sans-serif;
-    background: #f5f5f5;
-    color: #1a1a1a;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     padding: 2rem 1rem;
+    transition: background 0.2s, color 0.2s;
 }
 
 main {
@@ -19,10 +44,31 @@ main {
     max-width: 480px;
 }
 
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
 h1 {
     font-size: 1.75rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.25rem 0.375rem;
+    line-height: 1;
+    border-radius: 6px;
+    transition: background 0.15s;
+}
+
+#theme-toggle:hover {
+    background: var(--border);
 }
 
 #add-form {
@@ -35,22 +81,23 @@ h1 {
     flex: 1;
     padding: 0.625rem 0.875rem;
     font-size: 1rem;
-    border: 1.5px solid #d1d5db;
+    border: 1.5px solid var(--input-border);
     border-radius: 6px;
-    background: #fff;
+    background: var(--surface);
+    color: var(--text);
     outline: none;
     transition: border-color 0.15s;
 }
 
 #task-input:focus {
-    border-color: #4f46e5;
+    border-color: var(--accent);
 }
 
 button[type="submit"] {
     padding: 0.625rem 1.125rem;
     font-size: 1rem;
     font-weight: 500;
-    background: #4f46e5;
+    background: var(--accent);
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -59,7 +106,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background: #4338ca;
+    background: var(--accent-hover);
 }
 
 #task-list {
@@ -74,22 +121,38 @@ button[type="submit"]:hover {
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    background: #fff;
-    border: 1.5px solid #e5e7eb;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 8px;
+    cursor: grab;
+    user-select: none;
 }
 
 .task-text {
     flex: 1;
     font-size: 1rem;
+    cursor: text;
+}
+
+.task-edit-input {
+    flex: 1;
+    font-size: 1rem;
+    font-family: inherit;
+    background: transparent;
+    color: var(--text);
+    border: none;
+    border-bottom: 1.5px solid var(--accent);
+    outline: none;
+    padding: 0;
+    user-select: text;
 }
 
 .delete-btn {
     padding: 0.375rem 0.75rem;
     font-size: 0.875rem;
     background: transparent;
-    color: #9ca3af;
-    border: 1.5px solid #e5e7eb;
+    color: var(--delete-color);
+    border: 1.5px solid var(--border);
     border-radius: 5px;
     cursor: pointer;
     transition: color 0.15s, border-color 0.15s;
@@ -102,24 +165,33 @@ button[type="submit"]:hover {
 
 #task-counter {
     font-size: 0.875rem;
-    color: #6b7280;
+    color: var(--text-muted);
     margin-bottom: 0.75rem;
 }
 
 .task-item input[type="checkbox"] {
     width: 1.1rem;
     height: 1.1rem;
-    accent-color: #4f46e5;
+    accent-color: var(--accent);
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .task-item.completed {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: #e5e7eb;
+    background: var(--completed-bg);
+    border-color: var(--border);
 }
 
 .task-item.completed .task-text {
     text-decoration: line-through;
-    color: #9ca3af;
+    color: var(--text-muted);
+}
+
+.task-item.dragging {
+    opacity: 0.4;
+    cursor: grabbing;
+}
+
+.task-item.drag-over {
+    border-top: 2px solid var(--accent);
 }
